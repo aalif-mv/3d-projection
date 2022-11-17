@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <title>3d Projection</title>
+    <style>
+        body {
+            background-color: rgb(30 30 30);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            background-color: rgb(49, 49, 49);
+            border: none;
+            padding: 10px;
+            color: rgb(207, 207, 207);
+            border-radius: 5px;
+        }
+        button:hover {
+            color: rgb(255, 255, 255);
+            background-color: rgba(229, 186, 227, 0.096);
+        }
+        canvas {
+            border: 2px solid black;
+            background-color: rgb(250, 250, 250);
+        }
+        div {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            grid-template-rows: 35px 35px 35px;
+            justify-content: space-evenly;
+            justify-items: center;
+            align-items: center;
+        }
+        input {
+            background-color: rgb(75, 75, 75);
+            border: none;
+            border-radius: 5px;
+        }
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            width: 180px;
+            background: #797979;
+            outline: none;
+            opacity: 0.7; 
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+            margin-left: 20px;
+            border-radius: 5px;
+        }
+
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1; 
+        }
+
+        /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            transform: rotate(45deg);
+            background: #c763c0;
+            box-shadow: inset 0px 0px 10px 2px #0000009f;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            transform: rotate(45deg);
+            background: #c763c0;
+            box-shadow: inset 0px 0px 10px 2px #0000009f;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <div>
+        <button onclick="if(wireFrame == 'rect') {wireFrame = 'tri'; cube.edges = cubeEdgesTri()} else if(wireFrame == 'tri') {wireFrame = null} else {wireFrame = 'rect'; cube.edges = cubeEdgesRect()}">Change Wire frame</button>
+        <button onclick="if(points) {points = false} else {points = true}">Toggle Points</button>
+        <input class="slider" type="range" name="scale" id="scale" min="50" max="800" value="200" oninput="scale = this.value;" onchange="scale = this.value;">
+        <input class="slider" type="range" name="width" id="width" min="1" max="8" value="1" oninput="wireWidth = this.value;" onchange="wireWidth = this.value;">
+        <input class="slider" type="range" name="radius" id="radius" min="4" max="10" value="4" oninput="pointRadius = this.value;" onchange="pointRadius = this.value;">
+        <input class="slider" type="range" name="dist" id="dist" min="2" max="10" value="2" oninput="cameraDistance = this.value;" onchange="cameraDistance = this.value;">
+        <input type="color" name="lineCol" id="lineCol" oninput="wireColor = this.value;" onchange="wireColor = this.value;">
+        <input type="color" name="PointCol" id="PointCol" oninput="pointColor = this.value;" onchange="pointColor = this.value;">
+        <div style="display: flex; gap: 8px;">
+            <input type="color" name="background" id="background" oninput="canvas.style.backgroundColor = this.value;" onchange="canvas.style.backgroundColor = this.value;">
+            <button onclick="if (perspective) {perspective = false; projectionMatrix = orthographicProjectionMatrix();} else {perspective = true}">Toggle projection</button>
+        </div>
+    </div>
+    <script src="/javascript/utils.js"></script>
+    <script src="/javascript/engine.js"></script>
+    <script src="/javascript/constMat.js"></script>
+    <script src="/javascript/matrix.js"></script>
+    <script src="/javascript/objects/cube.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>
